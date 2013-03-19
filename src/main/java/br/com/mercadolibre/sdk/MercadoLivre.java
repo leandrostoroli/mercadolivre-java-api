@@ -1,5 +1,7 @@
 package br.com.mercadolibre.sdk;
 
+import br.com.mercadolibre.sdk.category.CategoryApi;
+import br.com.mercadolibre.sdk.category.CategoryApiImpl;
 import br.com.mercadolibre.sdk.site.SitesApi;
 import br.com.mercadolibre.sdk.site.SitesApiImpl;
 
@@ -17,6 +19,10 @@ public class MercadoLivre extends Meli {
 
 	public SitesApi getSiteApi() {
 		return new SitesApiImpl(this);
+	}
+
+	public CategoryApi getCategoryApi() {
+		return new CategoryApiImpl(this);
 	}
 
 }

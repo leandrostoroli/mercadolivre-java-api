@@ -65,4 +65,9 @@ public class CategoryBasicInfo implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "CategoryBasicInfo [id=" + id + ", name=" + name + "]";
+	}
+
 }

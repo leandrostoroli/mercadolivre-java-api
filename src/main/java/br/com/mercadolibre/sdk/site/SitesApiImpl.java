@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.mercadolibre.sdk.MercadoLivre;
-import br.com.mercadolibre.sdk.utils.ImmediatePaymentSerializerDeserializerGson;
+import br.com.mercadolibre.sdk.settings.EnumSerializerDeserializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,17 +23,19 @@ public class SitesApiImpl implements SitesApi {
 	public SitesApiImpl(MercadoLivre mercadoLibre) {
 		this.mercadoLibre = mercadoLibre;
 		this.gson = new GsonBuilder()
-			.registerTypeAdapter(ImmediatePayment.class, new ImmediatePaymentSerializerDeserializerGson())
-			.registerTypeAdapter(SaleFeesMode.class, new SaleFeesModeSerializerDeserializerGson())
+			.registerTypeAdapter(ImmediatePayment.class, new EnumSerializerDeserializer<ImmediatePayment>())		
+			.registerTypeAdapter(SaleFeesMode.class, new EnumSerializerDeserializer<SaleFeesMode>())
+//			.registerTypeAdapter(ImmediatePayment.class, new ImmediatePaymentSerializerDeserializerGson())
+//			.registerTypeAdapter(SaleFeesMode.class, new SaleFeesModeSerializerDeserializerGson())
 			.create();
-		
 	}
 
 	@Override
 	public List<SiteBasicInfo> getSites() {
 		try {
 			Response response = mercadoLibre.get("/sites");
-			return gson.fromJson(response.getResponseBody(), new TypeToken<List<SiteBasicInfo>>(){}.getType());
+			List<SiteBasicInfo> sites = gson.fromJson(response.getResponseBody(), new TypeToken<List<SiteBasicInfo>>(){}.getType());
+			return (sites != null)? sites : new ArrayList<SiteBasicInfo>(); 
 		} catch (MeliException e) {
 			e.printStackTrace();
 			return new ArrayList<SiteBasicInfo>();

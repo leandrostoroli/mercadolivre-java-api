@@ -27,9 +27,9 @@ public class SitesApiTest {
 	
 	private MercadoLivre meli;
 
-	private String clientSecret = "JCR0M0qqcEOCgOHIAUVxJ5vZsaoGDMFN";
+	private String clientSecret = "123456";
 
-	private Long clientId = 1094307892167423L;
+	private Long clientId = 123456L;
 	
 	private Response response;
 
@@ -58,6 +58,21 @@ public class SitesApiTest {
 		List<SiteBasicInfo> sites = api.getSites();
 		assertThat(sites.size(), is(equalTo(1)));
 		assertThat(sites.get(0), is(equalTo(site)));
+	}
+	
+	@Test
+	public void shouldGetEmptySitesList() {
+		try {
+			Mockito.when(response.getResponseBody()).thenReturn("");
+			Mockito.when(meli.get("/sites")).thenReturn(response);
+		} catch (IOException e) {
+			fail(e.getMessage());
+		} catch (MeliException e) {
+			fail(e.getMessage());
+		}
+		
+		List<SiteBasicInfo> sites = api.getSites();
+		assertThat(sites.size(), is(equalTo(0)));
 	}
 	
 	@Test
@@ -90,6 +105,23 @@ public class SitesApiTest {
 		
 		Site site = api.getSite(siteId);
 		assertThat(siteShouldBe, is(equalTo(site)));
+	}
+	
+	@Test
+	public void shouldGetNullFullSiteInfoById() {
+		siteId = "MLB";
+		
+		try {
+			Mockito.when(response.getResponseBody()).thenReturn("");
+			Mockito.when(meli.get("/sites/"+siteId)).thenReturn(response);
+		} catch (IOException e) {
+			fail(e.getMessage());
+		} catch (MeliException e) {
+			fail(e.getMessage());
+		}
+		
+		Site site = api.getSite(siteId);
+		assertThat(site, is(equalTo(null)));
 	}
 	
 }
