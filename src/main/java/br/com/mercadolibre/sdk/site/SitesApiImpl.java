@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.mercadolibre.sdk.MercadoLivre;
-import br.com.mercadolibre.sdk.utils.EnumSerializerDeserializerGson;
+import br.com.mercadolibre.sdk.utils.ImmediatePaymentSerializerDeserializerGson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,8 +23,8 @@ public class SitesApiImpl implements SitesApi {
 	public SitesApiImpl(MercadoLivre mercadoLibre) {
 		this.mercadoLibre = mercadoLibre;
 		this.gson = new GsonBuilder()
-			.registerTypeAdapter(ImmediatePayment.class, new EnumSerializerDeserializerGson())
-			.registerTypeAdapter(SaleFeesMode.class, new EnumSerializerDeserializerGson())
+			.registerTypeAdapter(ImmediatePayment.class, new ImmediatePaymentSerializerDeserializerGson())
+			.registerTypeAdapter(SaleFeesMode.class, new SaleFeesModeSerializerDeserializerGson())
 			.create();
 		
 	}
