@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.mercadolibre.sdk.category.CategoryBasicInfo;
-import br.com.mercadolibre.sdk.currency.Currency;
 import br.com.mercadolibre.sdk.site.ImmediatePayment;
 
 import com.google.gson.annotations.SerializedName;
@@ -33,7 +32,7 @@ public class Settings implements Serializable {
 	@SerializedName("coverage_areas")
 	private CoverageArea coverageArea;
 	
-	private List<Currency> currencies;
+	private List<String> currencies;
 	
 	@SerializedName("immediate_payment")
 	private ImmediatePayment immediatePayment;
@@ -95,7 +94,7 @@ public class Settings implements Serializable {
 		taxPayerTypes = new ArrayList<String>();
 		buyingAllowed = true;
 		buyingModes = new ArrayList<BuyingMode>();
-		currencies = new ArrayList<Currency>();
+		currencies = new ArrayList<String>();
 		itemConditions = new ArrayList<ItemCondition>();
 		shippingModes = new ArrayList<String>();
 		shippingOptions = new ArrayList<String>();
@@ -150,11 +149,11 @@ public class Settings implements Serializable {
 		this.coverageArea = coverageArea;
 	}
 
-	public List<Currency> getCurrencies() {
+	public List<String> getCurrencies() {
 		return currencies;
 	}
 
-	public void setCurrencies(List<Currency> currencies) {
+	public void setCurrencies(List<String> currencies) {
 		this.currencies = currencies;
 	}
 

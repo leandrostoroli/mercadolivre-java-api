@@ -8,4 +8,8 @@ public interface SitesApi {
 
 	Site getSite(String siteId);
 
+	List<ListingType> getListingTypes(String siteId);
+
+	List<ListingExposures> getListingExposures(String siteId);
+
 }

@@ -36,10 +36,12 @@ public class SitesApiTest {
 	private String siteId;
 	
 	@Before
-	public void before() {
+	public void before() throws MeliException {
+		siteId = "MLB";
 		meli = Mockito.spy(new MercadoLivre(clientId, clientSecret));
 		api = meli.getSiteApi();
 		response = Mockito.mock(Response.class);
+		Mockito.when(meli.get("/sites")).thenReturn(response);
 	}
 	
 	@Test
@@ -48,10 +50,7 @@ public class SitesApiTest {
 		
 		try {
 			Mockito.when(response.getResponseBody()).thenReturn("[{\"id\": \"MLB\",\"name\": \"Brasil\"}]");
-			Mockito.when(meli.get("/sites")).thenReturn(response);
 		} catch (IOException e) {
-			fail(e.getMessage());
-		} catch (MeliException e) {
 			fail(e.getMessage());
 		}
 		
@@ -64,10 +63,7 @@ public class SitesApiTest {
 	public void shouldGetEmptySitesList() {
 		try {
 			Mockito.when(response.getResponseBody()).thenReturn("");
-			Mockito.when(meli.get("/sites")).thenReturn(response);
 		} catch (IOException e) {
-			fail(e.getMessage());
-		} catch (MeliException e) {
 			fail(e.getMessage());
 		}
 		
@@ -77,8 +73,6 @@ public class SitesApiTest {
 	
 	@Test
 	public void shouldGetSiteFullInfoById() {
-		siteId = "MLB";
-		
 		Site siteShouldBe = new Site();
 		siteShouldBe.setId("MLB");
 		siteShouldBe.setName("Brasil");
@@ -96,10 +90,7 @@ public class SitesApiTest {
 		
 		try {
 			Mockito.when(response.getResponseBody()).thenReturn("{'id': 'MLB', 'name': 'Brasil', 'country_id': 'BR', 'sale_fees_mode': 'not_free', 'mercadopago_version': 3, 'default_currency_id': 'BRL', 'currencies':  [{'id': 'BRL', 'symbol': 'R$' } ], 'immediate_payment': 'optional', 'payment_method_ids':  ['MLBMP', 'MLBWC', 'MLBMO', 'MLBBC', 'MLBCC', 'MLBDE', 'MLBCD', 'MLBOU'], 'categories':  [{'id': 'MLB5672', 'name': 'Acessórios para Veículos' } ], 'settings':  {'identification_types':  ['CPF', 'CNPJ'], 'taxpayer_types': [] } }");
-			Mockito.when(meli.get("/sites/"+siteId)).thenReturn(response);
 		} catch (IOException e) {
-			fail(e.getMessage());
-		} catch (MeliException e) {
 			fail(e.getMessage());
 		}
 		
@@ -109,14 +100,9 @@ public class SitesApiTest {
 	
 	@Test
 	public void shouldGetNullFullSiteInfoById() {
-		siteId = "MLB";
-		
 		try {
 			Mockito.when(response.getResponseBody()).thenReturn("");
-			Mockito.when(meli.get("/sites/"+siteId)).thenReturn(response);
 		} catch (IOException e) {
-			fail(e.getMessage());
-		} catch (MeliException e) {
 			fail(e.getMessage());
 		}
 		
