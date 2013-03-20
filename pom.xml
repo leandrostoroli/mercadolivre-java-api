@@ -52,6 +52,10 @@
       <id>JBOSS_NEXUS</id>
       <url>http://repository.jboss.org/nexus/content/groups/public</url>
     </repository>
+    <repository>
+      <id>leandro-mercadolivre-sdk</id>
+      <url>https://github.com/leandrostoroli/java-sdk/tree/master/mvn-repo</url>
+    </repository>
   </repositories>
   <build>
     <finalName>mercadolivre-java-api</finalName>
@@ -67,4 +71,11 @@
       </plugin>
     </plugins>
   </build>
+  <distributionManagement>
+  	<repository>
+  		<id>internal.repo</id>
+  		<name>Internal Repository</name>
+  		<url>file://${basedir}/mvn-repo/</url>
+  	</repository>
+  </distributionManagement>
 </project>

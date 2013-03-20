@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.mercadolibre.sdk.MercadoLivre;
-import br.com.mercadolibre.sdk.settings.EnumSerializerDeserializer;
+import br.com.mercadolibre.sdk.utils.EnumSerializerDeserializerGson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,24 +16,22 @@ import com.ning.http.client.Response;
 
 public class SitesApiImpl implements SitesApi {
 	
-	private MercadoLivre mercadoLibre;
+	private MercadoLivre mercadoLivre;
 	
 	private Gson gson;
 	
-	public SitesApiImpl(MercadoLivre mercadoLibre) {
-		this.mercadoLibre = mercadoLibre;
+	public SitesApiImpl(MercadoLivre mercadoLivre) {
+		this.mercadoLivre = mercadoLivre;
 		this.gson = new GsonBuilder()
-			.registerTypeAdapter(ImmediatePayment.class, new EnumSerializerDeserializer<ImmediatePayment>())		
-			.registerTypeAdapter(SaleFeesMode.class, new EnumSerializerDeserializer<SaleFeesMode>())
-//			.registerTypeAdapter(ImmediatePayment.class, new ImmediatePaymentSerializerDeserializerGson())
-//			.registerTypeAdapter(SaleFeesMode.class, new SaleFeesModeSerializerDeserializerGson())
+			.registerTypeAdapter(ImmediatePayment.class, new EnumSerializerDeserializerGson<ImmediatePayment>())		
+			.registerTypeAdapter(SaleFeesMode.class, new EnumSerializerDeserializerGson<SaleFeesMode>())
 			.create();
 	}
 
 	@Override
 	public List<SiteBasicInfo> getSites() {
 		try {
-			Response response = mercadoLibre.get("/sites");
+			Response response = mercadoLivre.get("/sites");
 			List<SiteBasicInfo> sites = gson.fromJson(response.getResponseBody(), new TypeToken<List<SiteBasicInfo>>(){}.getType());
 			return (sites != null)? sites : new ArrayList<SiteBasicInfo>(); 
 		} catch (MeliException e) {
@@ -51,7 +49,7 @@ public class SitesApiImpl implements SitesApi {
 	@Override
 	public Site getSite(String siteId) {
 		try {
-			Response response = mercadoLibre.get("/sites/"+siteId);
+			Response response = mercadoLivre.get("/sites/"+siteId);
 			return gson.fromJson(response.getResponseBody(), Site.class);
 		} catch (MeliException e) {
 			e.printStackTrace();
